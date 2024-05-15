@@ -1,6 +1,5 @@
 #ifndef LIST_H
 #define LIST_H
-
 #include "./main.h"
 
 typedef struct node
@@ -13,8 +12,6 @@ typedef struct gen_list
     int n_el;
     NODE_PTR beginning;
 } *GEN_LIST_PTR, GEN_LIST;
-
-
 
 GEN_LIST_PTR createList();
 

@@ -6,7 +6,7 @@
 typedef struct Library
 {
     char *name;
-    HASHING_PTR library;
+    GEN_HASH_PTR library;
 } *LIBRARY_PTR, LIBRARY;
 
 LIBRARY_PTR createLibrary(char *_name, char *_logs);

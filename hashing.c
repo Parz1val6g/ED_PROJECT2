@@ -1,52 +1,38 @@
 #include "./hashing.h"
 
-GEN_LIST_PTR createList()
+HASH_NODE_PTR createHashNode()
 {
-    GEN_LIST_PTR list = (GEN_LIST_PTR)myMALLOC(sizeof(GEN_LIST));
-    if (list)
+    HASH_NODE_PTR hash_node = (HASH_NODE_PTR)myMALLOC(sizeof(HASH_NODE));
+    if (hash_node)
     {
-        list->beginning = NULL;
-        list->n_el = 0;
+        hash_node->key = NULL;
+        hash_node->list = createList();
+        hash_node->next = NULL;
     }
-    return list;
+    return hash_node;
 }
-
-void addNodeStart(GEN_LIST_PTR L, void *data) // adicionar nó no inicio
+GEN_GROUP_PTR createGroup()
 {
-    if (!L || !data)
-        return;
-    NODE_PTR node = (NODE_PTR)myMALLOC(sizeof(NODE));
-    node->data = data;
-    node->previous = NULL;
-    node->next = L->beginning;
-    L->beginning = node;
-    L->n_el++;
-}
-void addNodePos(GEN_LIST_PTR L, void *data, int (*checkNodeValue)(void *, void *)) // adicionar no numa determinada posição
-{
-    NODE_PTR node = (NODE_PTR)myMALLOC(sizeof(struct node));
-    node->data = data;
-    NODE_PTR aux1;
-    aux1 = L->beginning;
-    while (checkNodeValue(aux1->data, data))
-        aux1 = aux1->next;
-    L->n_el++;
-}
-void addNodeEnd(GEN_LIST_PTR L, void *data) // adicionar nó no fim
-{
-    NODE_PTR node = (NODE_PTR)myMALLOC(sizeof(NODE));
-    node->next = NULL;
-    node->data = data;
-
-    NODE_PTR aux1 = L->beginning, aux2 = NULL;
-    if (!aux1)
-        L->beginning = node;
-    else
+    GEN_GROUP_PTR group = (GEN_GROUP_PTR)myMALLOC(sizeof(GEN_GROUP));
+    if (group)
     {
-        while (aux1->next)
-            aux1 = aux1->next;
-        aux1->next = node;
-        node->previous = aux1;
+        group->n_ele = 0;
+        group->start = NULL;
     }
-    L->n_el++;
+    return group;
+}
+GEN_HASH_PTR createHashing()
+{
+    GEN_HASH_PTR hash_table = (GEN_HASH_PTR)myMALLOC(sizeof(GEN_HASH));
+    if (hash_table)
+        hash_table->groups = createGroup();
+    return hash_table;
+}
+GEN_GROUP_PTR searchGroup(char *key)
+{
+    HASH_NODE_PTR aux = books.groups.start;
+    while (aux)
+        if(strcmp(aux.key, key))
+         aux = aux.next;
+    return aux;
 }

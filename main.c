@@ -1,9 +1,4 @@
 #include "./main.h"
-// NÃO COMENTAR VARIÁVEIS GLOBAIS
-GEN_LIST_PTR districts;
-GEN_LIST_PTR counties;
-GEN_LIST_PTR parishes;
-GEN_LIST_PTR requesters;
 
 void manageBooksMenu()
 {
@@ -92,8 +87,8 @@ void manageRequisitantsMenu()
     {
         switch (option)
         {
-        case 1: // ADICIONAR A LISTA DE REQUISITANTES 
-            addNodePos(requesters ,addRequester(), checkRequester);
+        case 1: // ADICIONAR A LISTA DE REQUISITANTES
+            addNodePos(requesters, addRequester(), checkRequester);
             break;
         case 2:
             // searchRequisitant();
@@ -174,7 +169,6 @@ void manageRequisitionsMenu()
         }
     } while (option != 0);
 }
-
 int menu()
 {
 
@@ -199,10 +193,11 @@ int main()
 {
     int option, sub_option;
 
-    // districts = fetchData("distritos");
-    //  counties = fetchData("concelhos");
-    //  parishes = fetchData("freguesias");
-    //  requesters = fetchData("requesters");
+    districts = fetchListsData(FILES[0]);
+    counties = fetchListsData(FILES[1]);
+    parishes = fetchListsData(FILES[2]);
+    requesters = fetchListsData(FILES[3]);
+    books = fetchHashingData(FILES[4]);
 
     do
     {

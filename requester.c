@@ -47,7 +47,6 @@ REQUESTER_PTR addRequester()
         free(name);
         free(birth_date);
         free(loc_cod);
-
     }
 }
 

@@ -12,3 +12,11 @@
 #include "./useful.h"
 #include "./geo_entities.h"
 #include "./requester.h"
+
+GEN_LIST_PTR districts;
+GEN_LIST_PTR counties;
+GEN_LIST_PTR parishes;
+GEN_LIST_PTR requesters;
+GEN_HASH_PTR books;
+
+char *FILES[] = {"distritos", "concelhos", "freguesias", "requesters", "books"};

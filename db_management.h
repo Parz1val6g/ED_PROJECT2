@@ -3,7 +3,7 @@
 
 #include "./main.h"
 
-GEN_LIST_PTR fetchData(const char *file_name);
+GEN_LIST_PTR fetchListsData(const char *file_name);
 void *getLineContent(char *line, int type);
 void storeDataGen(GEN_LIST_PTR L, char *type);
 

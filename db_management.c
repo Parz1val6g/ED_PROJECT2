@@ -8,42 +8,31 @@ char *filePath(char *file)
     return file_path;
 }
 
-GEN_LIST_PTR fetchData(const char *file_type)
+GEN_LIST_PTR fetchListsData(const char *file_type)
 {
-    int type = 0;
     GEN_LIST_PTR list = NULL;
-    char line[256], number[10];
+    char line[256];
     FILE *file = myFOPEN(filePath(file_type), "r+");
     if (file)
     {
         list = createList();
         while (fgets(line, sizeof(line), file) != NULL)
-        {
-            sscanf(line, "%s", number);
-            type = strlen(number);
-            switch (type)
-            {
-            case 2:
-                addNodePos(list, getLineContent(line, type), checkDistrict);
-                break;
-            case 4:
-                addNodePos(list, getLineContent(line, type), checkCounty);
-                break;
-            case 6:
-                addNodePos(list, getLineContent(line, type), checkParish);
-                break;
-            case 9:
-                addNodePos(list, getLineContent(line, type), checkRequester);
-                break;
-            default:
+            if (strcmp(file_type, FILES[0]))
+                addNodePos(list, getLineContent(line, 1), checkDistrict);
+            else if (strcmp(file_type, FILES[1]))
+                addNodePos(list, getLineContent(line, 2), checkCounty);
+            else if (strcmp(file_type, FILES[2]))
+                addNodePos(list, getLineContent(line, 3), checkParish);
+            else if (strcmp(file_type, FILES[3]))
+                addNodePos(list, getLineContent(line, 4), checkRequester);
+            else if (strcmp(file_type, FILES[4]))
+                addNodePos(list, getLineContent(line, 5), checkRequester);
+            else
                 return NULL;
-            }
-        }
     }
     fclose(file);
     return list;
 }
-
 void storeDataGen(GEN_LIST_PTR L, char *type)
 {
     NODE_PTR aux_node = L->beginning;
@@ -67,25 +56,25 @@ void *getLineContent(char *line, int type)
     char cod[9] = NULL;
     switch (type)
     {
-    case 2: // DISTRITOS
+    case 1: // DISTRITOS
         DISTRICT_PTR district = createDistrict();
         sscanf(line, "%2s %[^\n]", district->cod, district->name);
         return district;
-    case 4: // CONCELHOS
+    case 2: // CONCELHOS
         COUNTY_PTR county = createCounty();
         sscanf(line, "%4s %[^\n]", cod, county->name);
         strncpy(county->cod, cod + 2, 2);
         county->cod[2] = '\0';
         county->this_district = getDistrict(cod);
         return county;
-    case 6: // FREGUESIAS
+    case 3: // FREGUESIAS
         PARISH_PTR parish = createParish();
         sscanf(line, "%6s %[^\n]", cod, parish->name);
         strncpy(parish->cod, cod + 4, 2);
         parish->cod[2] = '\0';
         parish->this_county = getCounty(cod);
         return parish;
-    case 9: // REQUESITANTES
+    case 4: // REQUESITANTES
         REQUESTER_PTR requester = NULL;
         char *id = (char *)myMALLOC(sizeof(10)), *name = (char *)myMALLOC(sizeof(50)), *birth_date = (char *)myMALLOC(sizeof(11)), *cod = (char *)myMALLOC(sizeof(7));
         if (id && name && birth_date && cod)
@@ -98,8 +87,45 @@ void *getLineContent(char *line, int type)
             free(cod);
         }
         return requester;
+    case 5:
+        BOOK_PTR book = createBook();
+        sscanf(line, "%s %s %s %s %d", book->author, book->ISBN, book->title, book->year);
+        return book;
     default:
         error(("Error: Unknown data format in line '%s'\n", line));
         return NULL;
+    }
+}
+
+GEN_HASH_PTR fetchHashingData(const char *file_type)
+{
+    char line[256];
+    FILE *file = myFOPEN(filePath(file_type), "r+");
+    if (file)
+    {
+        GEN_HASH_PTR hash_table = createHashing();
+        while (fgets(line, sizeof(line), file) != NULL)
+            addNodeHash(hash_table, line);
+    }
+}
+void addNodeHash(GEN_HASH_PTR hash_table, char *line)
+{
+    BOOK_PTR book = createBook();
+    if (book)
+    {
+        char *category = (char *)myMALLOC(sizeof(char) * 50);
+        sscanf(line, "%s %s %s %s %d %s", book->author, book->ISBN, book->title, book->year, category);
+        HASH_NODE_PTR aux = searchGroup(category);
+        if (aux)
+            addNodePos(aux->list, book, checkISBN);
+        else
+        {
+            aux = createGroup();
+            aux->key = category;
+            aux->list->beginning = book;
+            aux->list->n_el += 1;
+            hash_table->groups->n_ele+=1;
+            hash_table->groups->st
+        }
     }
 }
