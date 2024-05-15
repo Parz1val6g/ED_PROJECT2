@@ -39,7 +39,7 @@ PARISH_PTR createParish()
 
 NODE_PTR getDistrict(char *code)
 {
-    NODE_PTR aux = districts->beginning;
+    NODE_PTR aux = __districts->beginning;
     while (aux != NULL)
     {
         if (!strncmp(((DISTRICT_PTR)(aux->data))->cod, code, 2))
@@ -50,7 +50,7 @@ NODE_PTR getDistrict(char *code)
 }
 NODE_PTR getCounty(char *code)
 {
-    NODE_PTR aux = counties->beginning;
+    NODE_PTR aux = _counties->beginning;
     while (aux)
     {
         char county_full_code[5];
@@ -65,7 +65,7 @@ NODE_PTR getCounty(char *code)
 }
 NODE_PTR getParish(char *code)
 {
-    NODE_PTR aux = parishes->beginning;
+    NODE_PTR aux = _parishes->beginning;
     while (aux)
     {
         char parish_full_code[7];

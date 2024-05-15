@@ -50,7 +50,6 @@ void storeDataGen(GEN_LIST_PTR L, char *type)
         }
     fclose(file);
 }
-
 void *getLineContent(char *line, int type)
 {
     char cod[9] = NULL;
@@ -96,36 +95,76 @@ void *getLineContent(char *line, int type)
         return NULL;
     }
 }
-
-GEN_HASH_PTR fetchHashingData(const char *file_type)
+/*
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ */
+LIBRARY_PTR fetchHashingData(const char *file_type)
 {
     char line[256];
     FILE *file = myFOPEN(filePath(file_type), "r+");
     if (file)
     {
-        GEN_HASH_PTR hash_table = createHashing();
+        LIBRARY_PTR _lib = createLibrary();
         while (fgets(line, sizeof(line), file) != NULL)
-            addNodeHash(hash_table, line);
+            addNodeHash(_lib, line);
     }
 }
-void addNodeHash(GEN_HASH_PTR hash_table, char *line)
+
+void lineTreatment(char *line)
 {
     BOOK_PTR book = createBook();
     if (book)
     {
         char *category = (char *)myMALLOC(sizeof(char) * 50);
         sscanf(line, "%s %s %s %s %d %s", book->author, book->ISBN, book->title, book->year, category);
-        HASH_NODE_PTR aux = searchGroup(category);
+    }
+}
+
+void addNodeHash(LIBRARY_PTR _lib, char *line)
+{
+    BOOK_PTR book = createBook();
+    if (book)
+    {
+        char *_category = (char *)myMALLOC(sizeof(char) * 50);
+        sscanf(line, "%s %s %s %s %d %s", book->author, book->ISBN, book->title, book->year, category);
+        LIBRARY_NODE_PTR aux = searchCategorie(_category);
         if (aux)
-            addNodePos(aux->list, book, checkISBN);
+            addNodePos(aux->category, book, checkISBN);
         else
         {
-            aux = createGroup();
-            aux->key = category;
-            aux->list->beginning = book;
-            aux->list->n_el += 1;
-            hash_table->groups->n_ele+=1;
-            hash_table->groups->st
+            aux = createLibraryNode();
+            if (aux)
+            {
+                addN(aux->category, book);
+                aux->key = category;
+            }
+            _lib->groups->n_ele += 1;
+            hash_table->groups->first_group = aux;
         }
     }
 }

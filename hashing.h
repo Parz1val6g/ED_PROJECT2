@@ -3,31 +3,31 @@
 
 #include "./main.h"
 
-typedef struct Hash_list
+typedef struct library_node
 {
     char *key;
-    GEN_LIST_PTR list;
-    struct Hash_node *next;
-} *HASH_NODE_PTR, HASH_NODE;
+    GEN_LIST_PTR category;
+    struct library_node *next;
+} *LIBRARY_NODE_PTR, LIBRARY_NODE;
 
-typedef struct Group
+typedef struct groups
 {
-    int n_ele;
-    NODE_PTR first_group;
-} *GEN_GROUP_PTR, GEN_GROUP;
+    int n_el;
+    LIBRARY_NODE_PTR beginning;
+} *GROUPS_PTR, GROUPS;
 
-typedef struct Hashing
+typedef struct library
 {
-    GEN_GROUP_PTR groups;
-} *GEN_HASH_PTR, GEN_HASH;
+    char *name;
+    GROUPS_PTR _groups;
+} *LIBRARY_PTR, LIBRARY;
 
-GEN_HASH_PTR createHashing();
+LIBRARY_PTR createLibrary();
+GROUPS_PTR createGroups();
+GROUPS_PTR searchCategorie();
+LIBRARY_NODE_PTR createLibraryNode();
+
 void destroyHashing();
-
-GEN_GROUP_PTR createGroup();
-GEN_GROUP_PTR addGroup();
-
-GEN_GROUP_PTR searchGroup();
 
 /*
 

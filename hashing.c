@@ -1,38 +1,58 @@
 #include "./hashing.h"
 
-HASH_NODE_PTR createHashNode()
+LIBRARY_PTR createLibrary()
 {
-    HASH_NODE_PTR hash_node = (HASH_NODE_PTR)myMALLOC(sizeof(HASH_NODE));
-    if (hash_node)
+    LIBRARY_PTR library = (LIBRARY_PTR)myMALLOC(sizeof(LIBRARY));
+    if (library)
     {
-        hash_node->key = NULL;
-        hash_node->list = createList();
-        hash_node->next = NULL;
+        library->name = NULL;
+        library->_groups = NULL;
     }
-    return hash_node;
+    return library;
 }
-GEN_GROUP_PTR createGroup()
+GROUPS_PTR createGroups()
 {
-    GEN_GROUP_PTR group = (GEN_GROUP_PTR)myMALLOC(sizeof(GEN_GROUP));
-    if (group)
+    GROUPS_PTR groups = (GROUPS_PTR)myMALLOC(sizeof(GROUPS));
+    if (groups)
     {
-        group->n_ele = 0;
-        group->start = NULL;
+        groups->n_el = 0;
+        groups->beginning = NULL;
     }
-    return group;
+    return groups;
 }
-GEN_HASH_PTR createHashing()
+LIBRARY_NODE_PTR createLibraryNode(char *category, BOOK_PTR book)
 {
-    GEN_HASH_PTR hash_table = (GEN_HASH_PTR)myMALLOC(sizeof(GEN_HASH));
-    if (hash_table)
-        hash_table->groups = createGroup();
-    return hash_table;
+    LIBRARY_NODE_PTR lib_node = (LIBRARY_NODE_PTR)myMALLOC(sizeof(LIBRARY_NODE));
+    if (lib_node)
+    {
+        lib_node->key = NULL;
+        lib_node->category = createList();
+        lib_node->next = NULL;
+    }
+    return lib_node;
 }
-GEN_GROUP_PTR searchGroup(char *key)
+void addLibraryNodeEnd(GROUPS_PTR L, LIBRARY_NODE_PTR *category) // adicionar nó no fim
 {
-    HASH_NODE_PTR aux = books.groups.start;
+    LIBRARY_NODE_PTR node = (LIBRARY_NODE_PTR)myMALLOC(sizeof(LIBRARY_NODE));
+    
+
+    LIBRARY_NODE_PTR aux1 = L->beginning, aux2 = NULL;
+    if (!aux1)
+        L->beginning = node;
+    else
+    {
+        while (aux1->next)
+            aux1 = aux1->next;
+        aux1->next = node;
+        node->previous = aux1;
+    }
+    L->n_el++;
+}
+LIBRARY_NODE_PTR searchCategorie(char *key)
+{
+    LIBRARY_NODE_PTR aux = _library->_groups->beginning;
     while (aux)
-        if(strcmp(aux.key, key))
-         aux = aux.next;
+        if (strcmp(aux.key, key))
+            aux = aux.next;
     return aux;
 }

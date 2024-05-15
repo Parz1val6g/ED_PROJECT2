@@ -12,6 +12,63 @@
     return 0;
 }*/
 
+void booksMenu()
+{
+    int option;
+
+    printf("\n #-------------------------------------------------------------#");
+    printf("\n | (1) Adicionar livros a biblioteca                           |");
+    printf("\n | (2) Listar todos os livros por area                         |");
+    printf("\n | (3) Verificar a area com mais livros                        |");
+    printf("\n | (4) Verificar se um livro existe pelo ISBN                  |");
+    printf("\n | (5) Encontrar os livros mais recentes                       |");
+    printf("\n | (6) Encontrar o livro mais requisitado                      |");
+    printf("\n | (7) Determinar a area mais requisitada                      |");
+    printf("\n | (8) Salvar informacoes do livro                             |");
+    printf("\n | (0) SAIR                                                    |");
+    printf("\n #-------------------------------------------------------------#");
+
+    printf("\n ");
+
+    do
+    {
+        printf("\nQual a sua opcao: ");
+        fflush(stdin);
+        scanf(" %d", &option);
+    } while (option < 0 || option > 7); // alterar de modo a permitir que seja inserido caracter e n�o terminar a execucao!!
+
+    do
+    {
+        switch (option)
+        {
+        case 1:
+            // addBook();
+            break;
+        case 2:
+            // listBooks();
+            break;
+        case 3:
+            // areaWithMostBooks();
+            break;
+        case 4:
+            // searchBook(); se existir deve mostrar os seus dados
+            break;
+        case 5:
+            // mostRecentBooks(); o que tiver o ano mais recente!
+            break;
+        case 6:
+            // mostRequestedBook(); Se existir mais  do que um, deve devolver o primeiro encontrado)
+            break;
+        case 7:
+            // mostRequestedArea(); Se existir mais    tdo que uma, deve devolver a primeira encontrada)
+            break;
+        case 8:
+            // saveBooks();
+            break;
+        }
+    } while (option != 0);
+}
+
 int checkBook(BOOK_PTR book1, BOOK_PTR book2)
 {
     return !strcmp(book1->ISBN, book2->ISBN);
