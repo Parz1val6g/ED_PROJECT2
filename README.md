@@ -1,1 +1,56 @@
-# ED_PROJECT
+ **REGRAS:**
+ - Declaração de funções(quando tem + de 1 palavra, 1ª palavra tudo minusculo e as seguintes com letra maiuscula, ex: funcaoCriarLista(););
+ - Declaração de Variáveis(nome da var tudo minusculo e palavras separadas por underscore "_", ex: int contador_de_pessoas;);
+ - Usar ponteiros sempre que possível(*)(se houver alguma dúvida coloquem no discord que alguém á de ajudar ou ent questionem um professor), quando ñ for possivel usar arrays([])
+ - Funções e Listas Genéricas(usar sempre funções genéricas);
+ - Listas Bidirecionas(usarmos listas bidirecionais para termos um código mais fácil de ser manuseado))
+ - USAR **myMALLOC(...)** invés de malloc(...)(para ver função ir a useful.h)
+
+(estas regras foram criadas para obtermos os melhores resultados no final da avaliação)
+----
+
+**GOALS**
+
+- [X] Criar Menu
+- [ ] Carregar Dados de Ficheiros
+- [ ] Validação de Dados "requisitantes.txt"
+- [ ] Registar erros de dados errados em "logs.txt" e descartar os mesmos
+- [ ] Registar info de livros, requesitantes, requesições (no momento ou ao fim do programa)
+- [ ] **Gerir os livros**
+    - [ ] Adicionar livros
+    - [ ] Listar livros
+    - [ ] Determinar qual a área com mais livros
+    - [ ] Verificar se livro existe(ISBN), se existe -> mostra dados
+    - [ ] Determinar livro/s mais recente/s(ano)
+    - [ ] Determinar qual o livro mais requisitado (Se existir mais do que um, deve devolver o primeiro encontrado); 
+    - [ ] Determinar area + requisitada(return a 1ª encontrada)
+- [ ] **Gerir lista de requesitantes**
+    - [X] Adicionar requesitantes
+    - [X] Check se visitante existe(return nome)
+    - [X] Listar clientes
+    - [X] Idade maxima de tds requesitantes
+    - [X] Idade média de tds requesitantes
+    - [X] Nº de pessoas com idade > x
+    - [ ] Determinar a idade com mais requesitantes
+    - [ ] Mostrar as requisições de um dado requisitante
+    - [ ] Devolver uma lista das pessoas que nunca requisitaram nada
+    - [X] Listar os requisitantes que no momento têm livros requisitados
+    - [ ] Determinar qual o sobrenome mais usado pelos requisitantes;
+    - [ ] **Listar requisitantes que nasceram num Domingo (ou cujo aniversário num determinado ano é ao Domingo);**
+    - [ ] **Listar requisitantes cujo aniversário, num determinado ano, é na quaresma (entre o Carnaval e a Páscoa), (ou que nasceram na quaresma).**
+- [ ] **Gerir Requesições de Livros**
+    - [ ] Requesitar Livro
+    - [ ] Devolver Livro Requesitado
+    - [ ] Listar Livros Requesitados
+- [ ] Determinar a memória ocupada por toda a Estrutura de Dados
+- [ ] Gravar toda a informação para um dado ficheiro XML, cujo nome é introduzido pelo utilizador;
+- [ ] Libertar toda memoria usadas pelas estruturas antes do programa terminar
+
+----
+Dúvidas:
+1. As funções necessárias para o hashing devem estar nos ficheiros hashing.h e hashing.c / o que é ?? 
+
+Executar o projecto
+```bash
+    gcc book.c list.c person.c main.c useful.c requester.c library.c hashing.c -o main
+```
