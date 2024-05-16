@@ -37,10 +37,19 @@ void addNodePos(GEN_LIST_PTR L, void *data, int (*checkNodeValue)(void *, void *
 {
     NODE_PTR node = (NODE_PTR)myMALLOC(sizeof(NODE));
     node->data = data;
-    NODE_PTR aux1;
-    aux1 = L->beginning;
-    while (checkNodeValue(aux1->data, data))
-        aux1 = aux1->next;
+    NODE_PTR aux1 = L->beginning;
+    if (!aux1)
+        L->beginning = node;
+    else
+    {
+        while (checkNodeValue(aux1->data, data))
+            if (aux1->next)
+                aux1 = aux1->next;
+        if (aux1->next) // add mid
+            node->next = aux1->next;
+        aux1->next = node;
+        node->previous = aux1;
+    }
     L->n_el++;
 }
 void addNodeEnd(GEN_LIST_PTR L, void *data) // adicionar nó no fim

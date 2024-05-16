@@ -6,8 +6,8 @@
 typedef struct library_node
 {
     char *key;
-    GEN_LIST_PTR category;
-    struct library_node *next;
+    GEN_LIST_PTR books_list;
+    struct library_node *previous, *next;
 } *LIBRARY_NODE_PTR, LIBRARY_NODE;
 
 typedef struct groups
@@ -24,10 +24,13 @@ typedef struct library
 
 LIBRARY_PTR createLibrary();
 GROUPS_PTR createGroups();
-GROUPS_PTR searchCategorie();
 LIBRARY_NODE_PTR createLibraryNode();
 
-void destroyHashing();
+LIBRARY_NODE_PTR searchCategorie(char *key);
+
+void addHashNodePos(GROUPS_PTR group, LIBRARY_NODE_PTR lib, char *category);
+
+void destroyLibrary();
 
 /*
 

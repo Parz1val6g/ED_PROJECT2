@@ -20,21 +20,20 @@ GROUPS_PTR createGroups()
     }
     return groups;
 }
-LIBRARY_NODE_PTR createLibraryNode(char *category, BOOK_PTR book)
+LIBRARY_NODE_PTR createLibraryNode()
 {
     LIBRARY_NODE_PTR lib_node = (LIBRARY_NODE_PTR)myMALLOC(sizeof(LIBRARY_NODE));
     if (lib_node)
     {
         lib_node->key = NULL;
-        lib_node->category = createList();
+        lib_node->books_list = createList();
         lib_node->next = NULL;
     }
     return lib_node;
 }
-void addLibraryNodeEnd(GROUPS_PTR L, LIBRARY_NODE_PTR *category) // adicionar nó no fim
+/*void addLibraryNodeEnd(GROUPS_PTR L, LIBRARY_NODE_PTR *category) // adicionar nó no fim
 {
     LIBRARY_NODE_PTR node = (LIBRARY_NODE_PTR)myMALLOC(sizeof(LIBRARY_NODE));
-    
 
     LIBRARY_NODE_PTR aux1 = L->beginning, aux2 = NULL;
     if (!aux1)
@@ -47,12 +46,52 @@ void addLibraryNodeEnd(GROUPS_PTR L, LIBRARY_NODE_PTR *category) // adicionar n�
         node->previous = aux1;
     }
     L->n_el++;
-}
+}*/
+
 LIBRARY_NODE_PTR searchCategorie(char *key)
 {
     LIBRARY_NODE_PTR aux = _library->_groups->beginning;
     while (aux)
-        if (strcmp(aux.key, key))
-            aux = aux.next;
+        if (strcmp(aux->key, key))
+            aux = aux->next;
     return aux;
+}
+void addHashNodePos(GROUPS_PTR group, LIBRARY_NODE_PTR lib, char *category)
+{
+    LIBRARY_NODE_PTR node = createLibraryNode();
+    if (!node)
+        return;
+
+    node->key = category;
+    node->books_list = lib;
+    LIBRARY_NODE_PTR aux1 = group->beginning;
+    if (!aux1) // inserir 1º
+        group->beginning = node;
+    else
+    {
+        while (strcmp(aux1->key, lib->key) >= 0)
+            if (aux1->next)
+                aux1 = aux1->next;
+        if (aux1->next) // add mid
+            node->next = aux1->next;
+        aux1->next = node;
+        node->previous = aux1;
+    }
+    group->n_el++;
+}
+void destroyLibrary(LIBRARY_PTR L)
+{
+    if (!L)
+        return;
+    LIBRARY_NODE_PTR aux1 = L->_groups->beginning, aux2;
+    while (aux1)
+    {
+        destroyList(aux1->books_list, destroyBOOK);
+        free(aux1->key);
+        aux2 = aux1->next;
+        free(aux1);
+        aux1 = aux2;
+    }
+    free(L->name);
+    free(L);
 }

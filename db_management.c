@@ -135,36 +135,26 @@ LIBRARY_PTR fetchHashingData(const char *file_type)
     }
 }
 
-void lineTreatment(char *line)
-{
-    BOOK_PTR book = createBook();
-    if (book)
-    {
-        char *category = (char *)myMALLOC(sizeof(char) * 50);
-        sscanf(line, "%s %s %s %s %d %s", book->author, book->ISBN, book->title, book->year, category);
-    }
-}
-
 void addNodeHash(LIBRARY_PTR _lib, char *line)
 {
     BOOK_PTR book = createBook();
     if (book)
     {
         char *_category = (char *)myMALLOC(sizeof(char) * 50);
-        sscanf(line, "%s %s %s %s %d %s", book->author, book->ISBN, book->title, book->year, category);
+        sscanf(line, "%s %s %s %s %d %s", book->author, book->ISBN, book->title, book->year, _category);
         LIBRARY_NODE_PTR aux = searchCategorie(_category);
         if (aux)
-            addNodePos(aux->category, book, checkISBN);
+            addNodePos(aux->books_list, book, checkISBN);
         else
         {
             aux = createLibraryNode();
             if (aux)
             {
-                addN(aux->category, book);
-                aux->key = category;
+                addNodePos(aux->books_list, book, checkISBN);
+                aux->key = _category;
+                aux->next = NULL;
             }
-            _lib->groups->n_ele += 1;
-            hash_table->groups->first_group = aux;
+            addHashNodePos(_lib->_groups, aux, _category);
         }
     }
 }
